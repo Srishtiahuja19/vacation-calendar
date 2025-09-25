@@ -1,0 +1,105 @@
+.calendar {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .header button {
+    padding: 6px 12px;
+    border: none;
+    background-color: #1976d2;
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+  
+  .header button:hover {
+    background-color: #155a9c;
+  }
+  
+  .header-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+  
+  .week-days, .mini-week-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  
+  .week-days div, .mini-week-days div {
+    text-align: center;
+    padding: 6px 0;
+  }
+  
+  .week-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    margin-bottom: 2px;
+  }
+  
+  .day-cell {
+    border-radius: 6px;
+    min-height: 70px;
+    padding: 6px;
+    border: 1px solid #eee;
+    position: relative;
+    transition: transform 0.15s, box-shadow 0.15s;
+    cursor: pointer;
+  }
+  
+  .day-cell:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  }
+  
+  .day-number {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .holiday-name {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    right: 4px;
+    font-size: 11px;
+    color: #d32f2f;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .mini-month {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    padding: 6px;
+    background: #fff;
+  }
+  
+  .mini-month .day-cell {
+    min-height: 30px;
+    padding: 2px;
+    font-size: 11px;
+  }
+  
+  .mini-month-title {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 4px;
+    font-size: 13px;
+  }
+  

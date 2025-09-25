@@ -1,5 +1,8 @@
 import React from 'react';
-import { startOfMonth, endOfMonth, startOfWeek, addDays, format, isSameMonth, isSunday, addMonths, getMonth, getYear } from 'date-fns';
+import {
+  startOfMonth, endOfMonth, startOfWeek, addDays, format,
+  isSameMonth, isSunday, isSaturday, addMonths, getMonth, getYear
+} from 'date-fns';
 import './Calendar.css';
 
 function holidaysSet(hols) {
@@ -29,10 +32,12 @@ function countWeekHolidays(week, holMap){
 
 export default function Calendar({ date, view='month', holidays=[], onMonthChange }){
   const holMap = holidaysSet(holidays);
-  return view === 'month' ? <MonthView date={date} holMap={holMap} onMonthChange={onMonthChange} />
-                           : <QuarterView date={date} holMap={holMap} onMonthChange={onMonthChange} />;
+  return view === 'month'
+    ? <MonthView date={date} holMap={holMap} onMonthChange={onMonthChange} />
+    : <QuarterView date={date} holMap={holMap} onMonthChange={onMonthChange} />;
 }
 
+// ---------------- Month View ----------------
 function MonthView({ date, holMap, onMonthChange }){
   const monthStart = startOfMonth(date);
   const weeks = getWeeksInMonth(monthStart);
@@ -40,9 +45,9 @@ function MonthView({ date, holMap, onMonthChange }){
   return (
     <div className="calendar">
       <div className="header">
-        <button onClick={()=> onMonthChange(addMonths(date, -1))}>Prev Month</button>
+        <button onClick={()=> onMonthChange(addMonths(date, -1))}>◀ Prev</button>
         <div className="header-title">{format(date,'MMMM yyyy')}</div>
-        <button onClick={()=> onMonthChange(addMonths(date,1))}>Next Month</button>
+        <button onClick={()=> onMonthChange(addMonths(date,1))}>Next ▶</button>
       </div>
 
       <div className="week-days">
@@ -56,19 +61,19 @@ function MonthView({ date, holMap, onMonthChange }){
             {week.map(d=>{
               const iso = format(d,'yyyy-MM-dd');
               const isCurrentMonth = isSameMonth(d, monthStart);
-              const isSun = isSunday(d);
+              const isWeekend = isSunday(d) || isSaturday(d);
               const hol = holMap[iso];
               let bg = '#fff';
               if(isCurrentMonth){
-                if(weekHolidayCount === 1) bg = '#f2f2f2';
-                if(weekHolidayCount > 1) bg = '#bfbfbf';
-                if(isSun) bg = weekHolidayCount===0?'#f2f2f2':bg;
-              } else bg='#fafafa';
+                if(weekHolidayCount === 1) bg = '#f0f0f0';
+                if(weekHolidayCount > 1) bg = '#c2c2c2';
+                if(isWeekend && weekHolidayCount === 0) bg = '#f9f9f9';
+              } else bg = '#fafafa';
 
               return (
                 <div key={iso} className="day-cell" style={{backgroundColor:bg}}>
                   <div className="day-number">{format(d,'d')}</div>
-                  {hol && <div className="holiday-name" title={hol.localName || hol.name}>{hol.localName || hol.name}</div>}
+                  {hol && <div className="holiday-name" title={hol.name}>{hol.name}</div>}
                 </div>
               )
             })}
@@ -79,19 +84,24 @@ function MonthView({ date, holMap, onMonthChange }){
   )
 }
 
+// ---------------- Quarter View ----------------
 function QuarterView({ date, holMap, onMonthChange }){
   const startMonthOfQuarter = Math.floor(getMonth(date)/3)*3;
   const months = [startMonthOfQuarter, startMonthOfQuarter+1, startMonthOfQuarter+2];
   return (
     <div className="calendar">
       <div className="header">
-        <button onClick={()=> onMonthChange(addMonths(date,-3))}>Prev Quarter</button>
+        <button onClick={()=> onMonthChange(addMonths(date,-3))}>◀ Prev Qtr</button>
         <div className="header-title">Q{Math.floor(getMonth(date)/3)+1} {getYear(date)}</div>
-        <button onClick={()=> onMonthChange(addMonths(date,3))}>Next Quarter</button>
+        <button onClick={()=> onMonthChange(addMonths(date,3))}>Next Qtr ▶</button>
       </div>
 
-      <div style={{display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:12}}>
-        {months.map(m=> <div key={m} className="mini-month"><MiniMonth monthIndex={m} year={getYear(date)} holMap={holMap} /></div>)}
+      <div className="quarter-grid">
+        {months.map(m=> 
+          <div key={m} className="mini-month">
+            <MiniMonth monthIndex={m} year={getYear(date)} holMap={holMap} />
+          </div>
+        )}
       </div>
     </div>
   )
@@ -114,12 +124,12 @@ function MiniMonth({ monthIndex, year, holMap }){
             {week.map(d=>{
               const iso = format(d,'yyyy-MM-dd');
               const isCurrentMonth = d.getMonth()===monthIndex;
-              const isSun = isSunday(d);
+              const isWeekend = isSunday(d) || isSaturday(d);
               let bg='#fff';
               if(isCurrentMonth){
-                if(weekHolidayCount===1) bg='#f2f2f2';
-                if(weekHolidayCount>1) bg='#bfbfbf';
-                if(isSun) bg = weekHolidayCount===0?'#f2f2f2':bg;
+                if(weekHolidayCount===1) bg='#f0f0f0';
+                if(weekHolidayCount>1) bg='#c2c2c2';
+                if(isWeekend && weekHolidayCount===0) bg='#f9f9f9';
               } else bg='#fafafa';
               return <div key={iso} className="day-cell" style={{backgroundColor:bg}}></div>
             })}

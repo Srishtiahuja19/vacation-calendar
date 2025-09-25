@@ -1,29 +1,18 @@
 .calendar {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', Arial, sans-serif;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+    padding: 12px;
     max-width: 900px;
-    margin: 0 auto;
+    margin: 20px auto;
   }
   
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
-  }
-  
-  .header button {
-    padding: 6px 12px;
-    border: none;
-    background-color: #1976d2;
-    color: #fff;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background 0.2s;
-  }
-  
-  .header button:hover {
-    background-color: #155a9c;
+    margin-bottom: 10px;
   }
   
   .header-title {
@@ -31,50 +20,35 @@
     font-weight: 700;
   }
   
-  .week-days, .mini-week-days {
+  .week-days {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7,1fr);
+    text-align: center;
     font-weight: 600;
     margin-bottom: 6px;
   }
   
-  .week-days div, .mini-week-days div {
-    text-align: center;
-    padding: 6px 0;
-  }
-  
   .week-row {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 2px;
-    margin-bottom: 2px;
+    grid-template-columns: repeat(7,1fr);
   }
   
   .day-cell {
-    border-radius: 6px;
+    border: 1px solid #e0e0e0;
     min-height: 70px;
-    padding: 6px;
-    border: 1px solid #eee;
+    padding: 4px;
     position: relative;
-    transition: transform 0.15s, box-shadow 0.15s;
-    cursor: pointer;
-  }
-  
-  .day-cell:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
   }
   
   .day-number {
-    font-size: 14px;
     font-weight: 600;
+    margin-bottom: 4px;
   }
   
   .holiday-name {
-    position: absolute;
-    bottom: 4px;
-    left: 4px;
-    right: 4px;
     font-size: 11px;
     color: #d32f2f;
     white-space: nowrap;
@@ -82,24 +56,39 @@
     text-overflow: ellipsis;
   }
   
-  .mini-month {
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    padding: 6px;
-    background: #fff;
-  }
-  
-  .mini-month .day-cell {
-    min-height: 30px;
-    padding: 2px;
-    font-size: 11px;
-  }
-  
   .mini-month-title {
+    font-weight: 600;
     text-align: center;
-    font-weight: 700;
     margin-bottom: 4px;
-    font-size: 13px;
+  }
+  
+  .mini-week-days {
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    font-size: 10px;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  
+  .quarter-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 12px;
+  }
+  
+  button {
+    padding: 4px 10px;
+    border: none;
+    border-radius: 6px;
+    background-color: #1976d2;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+  
+  button:hover {
+    background-color: #115293;
   }
   

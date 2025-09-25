@@ -7,9 +7,14 @@ import './Calendar.css';
 
 function holidaysSet(hols) {
   const map = {};
-  (hols || []).forEach(h => map[h.date] = h);
+  (hols || []).forEach(h => {
+    // strip time part if present
+    const dateOnly = h.date.split(" ")[0]; // "2025-01-01"
+    map[dateOnly] = h;
+  });
   return map;
 }
+
 
 function getWeeksInMonth(monthStart) {
   const monthEnd = endOfMonth(monthStart);
@@ -72,9 +77,14 @@ function MonthView({ date, holMap, onMonthChange }){
 
               return (
                 <div key={iso} className="day-cell" style={{backgroundColor:bg}}>
-                  <div className="day-number">{format(d,'d')}</div>
-                  {hol && <div className="holiday-name" title={hol.name}>{hol.name}</div>}
-                </div>
+  <div className="day-number">{format(d,'d')}</div>
+  {hol && (
+    <div className="holiday-name" title={hol.name}>
+      🎉 {hol.name}
+    </div>
+  )}
+</div>
+
               )
             })}
           </div>
